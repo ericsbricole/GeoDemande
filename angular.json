@@ -124,5 +124,7 @@
       }
     }
   },
-  "defaultProject": "GeoDemande"
+  "cli": {
+    "analytics": false
+  }
 }

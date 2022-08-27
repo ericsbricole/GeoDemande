@@ -2,7 +2,7 @@ import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
 import { SearchService } from "../search.service";
 import { Country } from '../country';
 import { Observable } from 'rxjs';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-search',
@@ -10,7 +10,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  private _cForm: FormGroup;
+  private _cForm: UntypedFormGroup;
   private _selectedAlpha3Code: string;
 
   get cForm() {
@@ -37,7 +37,7 @@ export class SearchComponent implements OnInit {
   searchName: string = "nom du pays";
 
   constructor(private searchService: SearchService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: UntypedFormBuilder) { }
 
   ngOnInit() {
     this.initForm();

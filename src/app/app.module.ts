@@ -9,7 +9,6 @@ import { CountryDetailComponent } from './country-detail/country-detail.componen
 import { Routes, RouterModule } from '@angular/router';
 import { numberThousandsSeparatorPipe } from './numberThousandsSeparatorPipe';
 import { FourZeroFourComponent } from './four-zero-four/four-zero-four.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const appRoutes: Routes = [
   { path: "", component: SearchComponent },
@@ -32,7 +31,6 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [],
