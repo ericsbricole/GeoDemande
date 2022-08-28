@@ -2,13 +2,13 @@
   <div class="row">
     <div class="mx-auto">
       <h1 class="cName">
-        {{country.name}} ({{country.alpha2Code}}, {{country.alpha3Code}})
+          {{country.name.common}}
       </h1>
     </div>
   </div>
   <div class="row">
       <div class="col-6 mx-auto">
-        <img [src]="country.flag" height=300>
+        <img [src]="country.flags.svg" height=300>
       </div>
     </div>
     <br>
@@ -38,21 +38,6 @@
             <div class="col-6">{{country.subregion}}</div>
           </div>
         <br>
-        <div class="row" *ngIf="country.regionalBlocs.length==0; else atLeastOneBloc">
-            <div class="col-12">Aucun bloc régional</div>
-        </div>
-        <ng-template #atLeastOneBloc>
-          <div class="row" *ngIf="country.regionalBlocs.length==1; else severalBlocs">
-              <div class="col-6">Bloc régional:</div>
-                <div class="col-6"> {{country.regionalBlocs[0].name}} ({{country.regionalBlocs[0].acronym}})</div>
-            </div>
-            <ng-template #severalBlocs>
-              <div class="row" *ngFor="let rb of country.regionalBlocs; let i=index">
-                <div class="col-6">Bloc régional ({{i+1}}):</div>
-                <div class="col-6">{{rb.name}}</div>
-              </div>
-            </ng-template>
-          </ng-template>
 
       <br>
       <div class="row">
@@ -93,13 +78,6 @@
                 <div class="col-6">{{tz}}</div>
               </div>
             </ng-template>
-        
-      <ng-template #severalCallingCodes>
-        <div class="row" *ngFor="let call of country.callingCodes; let i=index">
-          <div class="col-6">code d'appel ({{i+1}}):</div>
-          <div class="col-6">{{call}}</div>
-        </div>
-      </ng-template>
       <br>
         <div class="row">
             <div class="col-6">Population:</div>
@@ -108,10 +86,10 @@
   </div>
   <div class="col-4 mx-auto cInfo">
         <br>
-      <div class="row" *ngIf="country.callingCodes.length==1; else severalCallingCodes">
-        <div class="col-6">code d'appel:</div>
-          <div class="col-6"> {{country.callingCodes[0]}}</div>
-      </div>
+        <div class="row">
+          <div class="col-6">Nom officiel (en anglais):</div>
+          <div class="col-6">{{country.name.official}}</div>
+        </div>
         <br>
         <span>Monnaie(s):</span>
         <br>
@@ -127,8 +105,8 @@
   <div class="col-4 mx-auto cInfo">
         <br>
         <div class="row">
-          <div class="col-6">Gentilé (en anglais):</div>
-          <div class="col-6">{{country.demonym}}</div>
+          <div class="col-6">Gentilé:</div>
+          <div class="col-6">{{country.demonyms}}</div>
         </div>
         <br>
         <div class="row">
@@ -136,9 +114,9 @@
             <div class="col-6">{{country.population | numberThousandsSeparator}}</div>
           </div>
           <br>
-          <div class="row" *ngIf="country.languages.length==1; else severalLanguages">
-              <div class="col-7">Langue (en anglais), iso639_1:</div>
-                <div class="col-5"> {{country.languages[0].name}}, {{country.languages[0].iso639_1}}</div>
+          <div class="row" *ngFor="let item of country | keyvalue">
+              <div class="col-7">{{item.key}}</div>
+              <div class="col-5"> {{item.value</div>
             </div>
             <ng-template #severalLanguages>
               <div class="row" *ngFor="let l of country.languages; let i=index">

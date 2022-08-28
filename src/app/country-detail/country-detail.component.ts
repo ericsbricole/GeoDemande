@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Country } from '../country';
+import { Country } from '../model/country';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../search.service';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-country-detail',
@@ -29,8 +28,9 @@ export class CountryDetailComponent implements OnInit {
     this.searchService.searchCountryByAlphaCode(alphaCode)
       .subscribe(
         (country) => {
-          this._country = country;
+          this._country = country[0];
           this._kTranslations = Object.keys(this._country.translations);
+      console.log(this._country);
         }
       );
   }

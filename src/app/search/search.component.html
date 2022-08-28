@@ -2,16 +2,17 @@
   <div class="row">
     <div class="offset-2"></div>
     <div class="col-8">
-      <form [formGroup]="cForm" (ngSubmit)="research()">
+      <form [formGroup]="cForm" (ngSubmit)="research($event)">
         <div class="form-group">
-            <label for="name">Nom du pays (même incomplet)</label>
-            <input id="name" type="text" class="form-control" placeholder="exemples: Fran, France" formControlName="inpName">
+            <label for="name">Nom du pays (même incomplet) dans quelque langue que ce soit.</label>
+            <input id="name" type="text" class="form-control" placeholder="exemples: Alle, Allemagne, Deutschland, Germany" formControlName="inpTranslation">
         </div>
         <br>
         <div class="form-group">
-            <label for="alphaCode">Code alpha 2 ou alpha 3. Ce champ ne retourne qu'un pays, si indiqué, les autres champs seront ignorés.</label>
-            <input id="alphaCode" type="text" class="form-control" placeholder="examples: FR ou FRA, IT ou ITA" formControlName="inpAlphaCode">
+            <label for="alphaCode">Code du pays, un au choix parmi le code alpha 2, alpha 3, le <a href="https://fr.wikipedia.org/wiki/Liste_des_codes_pays_du_CIO">code olympique (CIO).</a> ou <a href="https://fr.wikipedia.org/wiki/ISO_3166-1">numérique (iso 3166-1)</a>.</label>
+            <input id="alphaCode" type="text" class="form-control" placeholder="examples: FR ou FRA, IT ou ITA" formControlName="inpCode">
         </div>
+        <!-- TODO: plusieurs codes -->
         <br>
             <div class="form-group">
               <label for="cap">Capitale</label>
@@ -19,14 +20,9 @@
             </div>
         <br>
             <div class="form-group">
-              <label for="iso639_1">Languages en code ISO 639-1</label>
+              <label for="iso639_1">Nom de la langue ou son code ISO 639-2</label>
               <input id="iso639_1" type="text" class="form-control" placeholder="examples: fr, it)" formControlName="inpLang">
             </div>
-        <br>
-        <div class="form-group">
-          <label for="call">Code d'appel</label>
-              <input id="call" type="text" class="form-control" placeholder="examples: 33 (France), 39 (Italie)" formControlName="inpCall">
-          </div>
           <br>
           <div class="form-group">
                   <label for="reg">Continent</label>
@@ -39,29 +35,11 @@
                       <option>Oceania</option>
                   </select>
           </div>
-          <div class="form-group">
-                  <label for="regBloc">Bloc régional</label>
-                  <select id="regBloc" formControlName="inpRegBloc">
-                      <option>Ne pas filtrer</option>
-                      <option>EU (European Union)</option>
-                      <option>EFTA (European Free Trade Association)</option>
-                      <option>CARICOM (Caribbean Community)</option>
-                      <option>AU (African Union)</option>
-                      <option>USAN (Union of South American Nations)</option>
-                      <option>EEU (Eurasian Economic Union)</option>
-                      <option>AL (Arab League)</option>
-                      <option>ASEAN (Association of Southeast Asian Nations)</option>
-                      <option>CAIS (Central American Integration System)</option>
-                      <option>CEFTA (Central European Free Trade Agreement)</option>
-                      <option>NAFTA (North American Free Trade Agreement)</option>
-                      <option>SAARC (South Asian Association for Regional Cooperation)</option>
-                  </select>
-            </div>
           <br>
           <div class="row">
               <div class="offset-4"></div>
               <div class="col-4">
-                <button class="mx-auto btn btn-success" type="submit" (click)="research()">Rechercher</button>
+                <button class="mx-auto btn btn-success" type="submit">Rechercher</button>
               </div>
           </div>
       </form>
@@ -82,8 +60,8 @@
             <span>{{countries.length}} pays trouvé(s) avec vos critères</span>
             <br>
              <div class="list-group">
-              <a class="list-group-item" *ngFor="let c of countries" (mouseover)="updateSelectedA3C(c.alpha3Code)" (mouseout)="updateSelectedA3C(undefined)" [ngClass]="{'active': c.alpha3Code === selectedAlpha3Code}" [routerLink]="[ '/countryDetail', c.alpha3Code ]">
-                {{c.name}}
+              <a class="list-group-item" *ngFor="let c of countries" (mouseover)='updateSelectedA3C(c.alpha3Code)' (mouseout)="updateSelectedA3C(undefined)" [ngClass]='{"active": c.alpha3Code === selectedAlpha3Code}' [routerLink]="[ '/countryDetail', c.cca2 ]">
+                {{c.name.common}}
               </a>
             </div>
           </div>
