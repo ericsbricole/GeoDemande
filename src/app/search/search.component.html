@@ -60,7 +60,7 @@
             <span>{{countries.length}} pays trouvé(s) avec vos critères</span>
             <br>
              <div class="list-group">
-              <a class="list-group-item" *ngFor="let c of countries" (mouseover)='updateSelectedA3C(c.alpha3Code)' (mouseout)="updateSelectedA3C(undefined)" [ngClass]='{"active": c.alpha3Code === selectedAlpha3Code}' [routerLink]="[ '/countryDetail', c.cca2 ]">
+              <a class="list-group-item" *ngFor="let c of countries" (mouseover)='updateSelectedA3C(c.alpha3Code)' (mouseout)="updateSelectedA3C(undefined)" [ngClass]='{"active": c.alpha3Code === selectedAlpha3Code}' [routerLink]="[ '/countryDetail', c.cca3 ]">
                 {{c.name.common}}
               </a>
             </div>

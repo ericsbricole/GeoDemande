@@ -1,14 +1,37 @@
-<div id="cDetailContainer" class="container-fluid text-center">
+<div id="cDetailContainer" class="container-fluid text-center" *ngIf="country">
   <div class="row">
     <div class="mx-auto">
       <h1 class="cName">
-          {{country.name.common}}
+          {{country.translations[selectedOfficialName].common}}
       </h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <h2>{{country.translations[selectedOfficialName].official}}</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class=" col-12">
+      <label for="idSelectOfficialNameTag">Voir les noms commun et officiel de ce pays dans une autre langue: </label>
+      <select id="idSelectOfficialNameTag" #selectOfficialNameTag (change)="changeSelectedNameTranslation(selectOfficialNameTag)">
+        <option *ngFor="let officialName of country.translations | keyvalue" [selected]="officialName.key === selectedOfficialName">
+          {{officialName.key}}
+        </option>
+      </select>
     </div>
   </div>
   <div class="row">
       <div class="col-6 mx-auto">
         <img [src]="country.flags.svg" height=300>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-12">
+        <div class="text-center">Ce pays {{country.independent ? 'est indépendant' : "n'est pas indépendant"}} et 
+          {{country.landlocked ? 'est enclavé' : "dispose d'un accès à la mer"}}. Les voitures y roulent à {{country.car.side === 'left' ? 'gauche' : 'droite'}} et
+           sont immatriculées {{getCarSigns()}}.</div>
       </div>
     </div>
     <br>
@@ -22,11 +45,18 @@
         <div class="col-4">
             <h2>Démographie</h2>
           </div>
-
     </div>
   <div class="row mx-auto">
     <div class="col-4 cInfo">
         <br>
+      <br>
+      <div class="row">
+        <div class="col-12">
+          <div class="text-break">
+            <a [href]="country.maps.openStreetMaps" target="_blank">Lien vers la carte OpenStreetMaps</a>
+          </div>
+        </div>
+      </div>
       <br>
       <div class="row">
           <div class="col-6">Continent:</div>
@@ -78,35 +108,60 @@
                 <div class="col-6">{{tz}}</div>
               </div>
             </ng-template>
-      <br>
+  </div>
+  <div class="col-4 mx-auto cInfo">
+        <br>
+        <div class="row center-block">
+          <div class="col-12">
+            Blason
+            <img class="img-fluid" [src]="country.coatOfArms.png"/>
+          </div>
+        </div>
+        <br>
         <div class="row">
-            <div class="col-6">Population:</div>
-            <div class="col-6">{{country.population | numberThousandsSeparator}}</div>
+          <div class="col-6">Langue(s) parlée(s):</div>
+          <div class="col-6">{{joinLanguages()}}</div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-6">Monnaie(s):</div>
+          <div class="col-6">{{joinCurrencies()}}</div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-6">Premier jour de la semaine:</div>
+            <div class="col-6">{{translateDayOfWeekInFrench(country.startOfWeek)}}</div>
+        </div>
+          <br>
+          <div class="row center-block">
+            <div class="col-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>année</th>
+                    <th>index de Gini</th>
+                  </tr>
+                </thead>
+                <tr *ngFor="let giniYear of country.gini | keyvalue">
+                  <td>{{giniYear.key}}</td>
+                  <td>{{giniYear.value}}</td>
+                </tr>
+              </table>
+            </div>
           </div>
   </div>
   <div class="col-4 mx-auto cInfo">
         <br>
         <div class="row">
-          <div class="col-6">Nom officiel (en anglais):</div>
-          <div class="col-6">{{country.name.official}}</div>
-        </div>
-        <br>
-        <span>Monnaie(s):</span>
-        <br>
-        <div class="row" *ngFor="let curr of country.currencies">
-            <div class="col-12">{{curr.name}} ({{curr.code}}), symbole: {{curr.symbol}}</div>
+          <div class="col-6">
+            <label for="idSelectDemonymsTag">Gentilés </label>
+            <select id="idSelectDemonymsTag" #selectDemonymsTag (change)="changeDemonymTranslation(selectDemonymsTag)">
+              <option *ngFor="let demonym of country.demonyms | keyvalue" [selected]="demonym.key === selectedDemonymTranslation">
+                {{demonym.key}}
+              </option>
+            </select>
           </div>
-          <br>
-          <div class="row">
-            <div class="col-6">Index de Gini:</div>
-            <div class="col-6">{{country.gini}}</div>
-          </div>
-  </div>
-  <div class="col-4 mx-auto cInfo">
-        <br>
-        <div class="row">
-          <div class="col-6">Gentilé:</div>
-          <div class="col-6">{{country.demonyms}}</div>
+          <div class="col-6">♀{{country.demonyms[selectedDemonymTranslation].f}} ,♂{{country.demonyms[selectedDemonymTranslation].m}}</div>
         </div>
         <br>
         <div class="row">
@@ -114,24 +169,7 @@
             <div class="col-6">{{country.population | numberThousandsSeparator}}</div>
           </div>
           <br>
-          <div class="row" *ngFor="let item of country | keyvalue">
-              <div class="col-7">{{item.key}}</div>
-              <div class="col-5"> {{item.value</div>
-            </div>
-            <ng-template #severalLanguages>
-              <div class="row" *ngFor="let l of country.languages; let i=index">
-                <div class="col-7">Langue {{i+1}} (en anglais), iso639_1:</div>
-                <div class="col-4">{{l.name}}, {{l.iso639_1}}</div>
-              </div>
-            </ng-template>
-            <br>
-            <div class="row">
-              <div class="col-12">Traductions:</div>
-            </div>
-            <div class="row" *ngFor="let k of kTranslations; let i=index">
-              <div class="col-7">{{k}}:</div>
-              <div class="col-4">{{country.translations[k]}}</div>
-            </div>
+          
     </div>
 </div>
 <br>
