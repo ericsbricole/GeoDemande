@@ -34,8 +34,6 @@ export class SearchComponent implements OnInit {
     return this._searched;
   }
 
-  searchName: string = "nom du pays";
-
   constructor(private searchService: SearchService,
     private formBuilder: UntypedFormBuilder) { }
 
@@ -46,24 +44,24 @@ export class SearchComponent implements OnInit {
 
   private initForm(): void {
     this._cForm = this.formBuilder.group({
-      inpCode: "",
-      inpTranslation: "",
-      inpLang: "",
-      inpCall: "",
-      inpReg: "",
-      inpRegBloc: "",
-      inpCapital: "",
+      inpCode: '',
+      inpTranslation: '',
+      inpLang: '',
+      inpCall: '',
+      inpReg: '',
+      inpRegBloc: '',
+      inpCapital: '',
     });
   }
 
   research(event): void {
     this._searched = true;
     const formValue = this._cForm.value;
-    const code: string = formValue["inpCode"];
-    let translation: string = formValue["inpTranslation"];
-    let lang: string = formValue["inpLang"];
-    let reg: string = formValue["inpReg"] === "Ne pas filtrer" ? "" : formValue["inpReg"];
-    let capital: string = formValue["inpCapital"];
+    const code: string = formValue['inpCode'];
+    const translation: string = formValue['inpTranslation'];
+    const lang: string = formValue['inpLang'];
+    const reg: string = formValue['inpReg'] === 'Ne pas filtrer' ? '' : formValue['inpReg'];
+    const capital: string = formValue['inpCapital'];
 
     this._countries = [];
     let obsToRequest: Observable<Country[]>[] = [];
@@ -104,11 +102,11 @@ export class SearchComponent implements OnInit {
       })
     }); // at this point, countIterationsOfCountries knows how many times we have found each country
 
-    let hits = Object.values(countIterationsOfCountries);
-    let max = Math.max.apply(null, hits);
+    const hits = Object.values(countIterationsOfCountries);
+    const max = Math.max.apply(null, hits);
 
     //we loop responses again to push countries found in each list, thus selected by each user-defined filters
-    this._responses.forEach((countriesFound) => {
+    this._responses.forEach(countriesFound => {
       countriesFound.forEach((countryFound) => {
         if (countIterationsOfCountries[countryFound.name.common] === this._responses.length && this.canPushInCountries(countryFound)) {
             this._countries.push(countryFound);

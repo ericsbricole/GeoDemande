@@ -38,7 +38,7 @@ export class CountryDetailComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    let alphaCode = this.route.snapshot.params["alpha3Code"];
+    const alphaCode = this.route.snapshot.params['alpha3Code'];
     this.searchService.searchCountryByAlphaCode(alphaCode)
       .subscribe(
         country => {

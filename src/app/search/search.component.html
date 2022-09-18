@@ -4,8 +4,8 @@
     <div class="col-8">
       <form [formGroup]="cForm" (ngSubmit)="research($event)">
         <div class="form-group">
-            <label for="name">Nom du pays (même incomplet) dans quelque langue que ce soit.</label>
-            <input id="name" type="text" class="form-control" placeholder="exemples: Alle, Allemagne, Deutschland, Germany" formControlName="inpTranslation">
+            <label for="name">Nom du pays, même incomplet et dans n'importe quelle langue supportée par Rest Countries.</label>
+            <input id="name" type="text" class="form-control" placeholder="exemples: Allemagne, Deutschland, Germany" formControlName="inpTranslation">
         </div>
         <br>
         <div class="form-group">
@@ -20,8 +20,8 @@
             </div>
         <br>
             <div class="form-group">
-              <label for="iso639_1">Nom de la langue ou son code ISO 639-2</label>
-              <input id="iso639_1" type="text" class="form-control" placeholder="examples: fr, it)" formControlName="inpLang">
+              <label for="iso639_1">Nom de la langue ou son code <a href="https://fr.wikipedia.org/wiki/Liste_des_codes_ISO_639-2">ISO 639-2</a></label>
+              <input id="iso639_1" type="text" class="form-control" placeholder="examples: fra, ita)" formControlName="inpLang">
             </div>
           <br>
           <div class="form-group">
